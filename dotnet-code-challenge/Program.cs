@@ -37,13 +37,16 @@ namespace dotnet_code_challenge
                         while (true)
                         {
                             int i = 1;
+                            //paginate the data
                             foreach (var item in filePaths.Skip((page - 1)*size).Take(size))
                             {
+                                //get rid of file path and leave just file name
                                 Console.WriteLine($"{(page - 1) * size + i} - {item.ToString()}");
                                 i++;
                             }
                             do
                             {
+                                //choose file
                                 Console.WriteLine("Please enter number corresponding to file, or the page number or next or prev.");
                                 string cmd = Console.ReadLine();
                                 if (cmd.ToLower() == "next")
@@ -97,6 +100,7 @@ namespace dotnet_code_challenge
 
                                 if (filePath.EndsWith(".json") && !string.IsNullOrWhiteSpace(fileData))
                                 {
+                                    //Convert raw data to object based on model
                                     JSONData data = JsonConvert.DeserializeObject<JSONData>(fileData);
 
                                     foreach (var market in data.RawData.Markets)
@@ -116,6 +120,7 @@ namespace dotnet_code_challenge
                                     XMLData data = null;
                                     using (var reader = XmlReader.Create(filePath))
                                     {
+                                        //determine how to ignore namespace
                                         data = (XMLData)serializer.Deserialize(reader);
                                     }
                                     foreach (var item in data.Races.OrderBy(x => x.Number))
