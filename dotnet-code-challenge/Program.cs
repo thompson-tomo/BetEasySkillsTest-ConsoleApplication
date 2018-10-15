@@ -21,13 +21,15 @@ namespace dotnet_code_challenge
                 do
                 {
                     directoryPath = Console.ReadLine();
-                    if (directoryPath.ToLower() == "exit") return; ;
-                    if (Directory.Exists(directoryPath))
+                    if (directoryPath.ToLower() == "exit") return;
+                    if (!Directory.Exists(directoryPath))
                     {
+                        Console.WriteLine("Sorry but that directory can not be found");
                         break;
                     }
-                    Console.WriteLine("Sorry but that directory can not be found");
-                    List<string> filePaths = Directory.GetFiles(directoryPath, "*.json OR *.xml", SearchOption.TopDirectoryOnly).ToList();
+                    List<string> filePaths = Directory.GetFiles(directoryPath, "*.json").ToList();
+                    filePaths.AddRange(Directory.GetFiles(directoryPath, "*.xml").ToList());
+                    filePaths = filePaths.OrderBy(x => x).ToList();
                     if (filePaths.Count > 0)
                     {
                         int page = 1;
@@ -93,7 +95,7 @@ namespace dotnet_code_challenge
                                 var filePath = Path.Combine(directoryPath, filePaths.ElementAt(ItemNum - 1)).ToLower();
                                 var fileData = File.ReadAllText(filePath);
 
-                                if (filePath.EndsWith(".json") && string.IsNullOrWhiteSpace(fileData))
+                                if (filePath.EndsWith(".json") && !string.IsNullOrWhiteSpace(fileData))
                                 {
                                     JSONData data = JsonConvert.DeserializeObject<JSONData>(fileData);
 
@@ -108,7 +110,7 @@ namespace dotnet_code_challenge
                                     }
 
                                 }
-                                else if (filePath.EndsWith(".xml") && string.IsNullOrWhiteSpace(fileData))
+                                else if (filePath.EndsWith(".xml") && !string.IsNullOrWhiteSpace(fileData))
                                 {
                                     var serializer = new XmlSerializer(typeof(XMLData));
                                     XMLData data = null;
