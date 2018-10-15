@@ -97,6 +97,16 @@ namespace dotnet_code_challenge
                                 {
                                     JSONData data = JsonConvert.DeserializeObject<JSONData>(fileData);
 
+                                    foreach (var market in data.RawData.Markets)
+                                    {
+                                        Console.WriteLine($"{data.RawData.FixtureName} - {market.Id}");
+                                        Console.WriteLine("===================================");
+                                        foreach (var item in market.Selections.OrderBy(x => x.Price))
+                                        {
+                                            Console.WriteLine($"{item.Tags.Name} @ ${item.Price}");
+                                        }
+                                    }
+
                                 }
                                 else if (filePath.EndsWith(".xml") && string.IsNullOrWhiteSpace(fileData))
                                 {
