@@ -87,6 +87,20 @@ namespace dotnet_code_challenge
                                     continue;
                                 }
                                 var fileData = File.ReadAllText(Path.Combine(directoryPath, filePaths.ElementAt(ItemNum - 1)));
+
+                                if (filePaths.ElementAt(ItemNum - 1).ToLower().EndsWith(".json") && string.IsNullOrWhiteSpace(fileData))
+                                {
+
+                                }
+                                else if (filePaths.ElementAt(ItemNum - 1).ToLower().EndsWith(".xml") && string.IsNullOrWhiteSpace(fileData))
+                                {
+
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Non Valid file selected");
+                                    continue;
+                                }
                             } while (true);
                         }
                     }
