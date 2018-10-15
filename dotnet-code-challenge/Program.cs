@@ -86,6 +86,7 @@ namespace dotnet_code_challenge
                                     Console.WriteLine("Non Valid file selected");
                                     continue;
                                 }
+                                var fileData = File.ReadAllText(Path.Combine(directoryPath, filePaths.ElementAt(ItemNum - 1)));
                             } while (true);
                         }
                     }
