@@ -1,7 +1,11 @@
-﻿using System;
+﻿using dotnet_code_challenge.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace dotnet_code_challenge
 {
@@ -86,14 +90,35 @@ namespace dotnet_code_challenge
                                     Console.WriteLine("Non Valid file selected");
                                     continue;
                                 }
-                                var fileData = File.ReadAllText(Path.Combine(directoryPath, filePaths.ElementAt(ItemNum - 1)));
+                                var filePath = Path.Combine(directoryPath, filePaths.ElementAt(ItemNum - 1)).ToLower();
+                                var fileData = File.ReadAllText(filePath);
 
-                                if (filePaths.ElementAt(ItemNum - 1).ToLower().EndsWith(".json") && string.IsNullOrWhiteSpace(fileData))
+                                if (filePath.EndsWith(".json") && string.IsNullOrWhiteSpace(fileData))
                                 {
+                                    JSONData data = JsonConvert.DeserializeObject<JSONData>(fileData);
 
                                 }
-                                else if (filePaths.ElementAt(ItemNum - 1).ToLower().EndsWith(".xml") && string.IsNullOrWhiteSpace(fileData))
+                                else if (filePath.EndsWith(".xml") && string.IsNullOrWhiteSpace(fileData))
                                 {
+                                    var serializer = new XmlSerializer(typeof(XMLData));
+                                    XMLData data = null;
+                                    using (var reader = XmlReader.Create(filePath))
+                                    {
+                                        data = (XMLData)serializer.Deserialize(reader);
+                                    }
+                                    foreach (var item in data.Races.OrderBy(x => x.Number))
+                                    {
+                                        foreach (var pricing in item.Prices)
+                                        {
+                                            Console.WriteLine($"Race {item.Number} - {item.Name} ({pricing.PriceType}");
+                                            Console.WriteLine("===================================");
+                                            foreach (var horse in pricing.Horses.OrderBy(x => x.Price))
+                                            {
+                                                Console.WriteLine($"{item.Horses.Where(x => x.Number == horse.Number).FirstOrDefault()?.Name} @ ${horse.Price}");
+                                            }
+                                            Console.WriteLine("");
+                                        }
+                                    } 
 
                                 }
                                 else

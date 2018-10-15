@@ -29,7 +29,7 @@ namespace dotnet_code_challenge.Models
         public string Id { get; set; }
         public string Name { get; set; }
         public string Status { get; set; }
-        public string Number { get; set; }
+        public int Number { get; set; }
         public string NumberOfRunners { get; set; }
         public string Start_time { get; set; }
         public string Distance_Meters { get; set; }
@@ -98,6 +98,6 @@ namespace dotnet_code_challenge.Models
     public class Runners
     {
         public string Number { get; set; }
-        public string Price { get; set; }
+        public decimal Price { get; set; }
     }
 }
