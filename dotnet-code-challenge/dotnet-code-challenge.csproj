@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Folder Include="FeedData\" />
+    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
