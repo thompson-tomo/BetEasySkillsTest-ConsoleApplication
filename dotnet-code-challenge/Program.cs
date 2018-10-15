@@ -42,9 +42,9 @@ namespace dotnet_code_challenge
                                 Console.WriteLine($"{(page - 1) * size + i} - {item.ToString()}");
                                 i++;
                             }
-                            Console.WriteLine("Please enter number corresponding to file, or the page number or next or prev.");
                             do
                             {
+                                Console.WriteLine("Please enter number corresponding to file, or the page number or next or prev.");
                                 string cmd = Console.ReadLine();
                                 if (cmd.ToLower() == "next")
                                 {
